@@ -1,12 +1,23 @@
-#include <GL/gl.h>
-#include <GL/glut.h>
+#include <windows.h>
+#include <gl/glut.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
-int cx1, cy1, r;
-int cnt = 0;
+template<typename T>
+struct Point
+{
+    T x,y;
+    Point(){}
+
+    Point(T x,T y){
+        this->x=x;
+        this->y=y;
+    }
+};
+
+int cx1=0, cy1=0, r;
 
 void myInit() {
 	glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -16,7 +27,8 @@ void myInit() {
 	glColor3f(0.0, 0.0, 0.0);
 }
 
-void drawOctetPoints(int x, int y) {
+void drawOctetPoints(Point<int> p) {
+	int x=p.x,y=p.y;
 	glBegin(GL_POINTS);
 	glVertex2i(x + cx1, y + cy1);
 	glVertex2i(-x + cx1, y + cy1);
@@ -30,21 +42,19 @@ void drawOctetPoints(int x, int y) {
 }
 
 void drawCircle(int r) {
-	int d = 1 - r;
-	int x = 0;
-	int y = r;
-
-	drawOctetPoints(x, y);
-	while (x <= y) {
-		if (d >= 0) {
-			x++;
-			y--;
-			d = d + 2 * x - 2 * y + 1; // d += 2x - 2y + 1
-		} else {
-			x++;
-			d = d + 2 * x + 1; // d += 2x + 1
+	int d = 3 - 2*r;
+	Point<int> p(0,r);
+	drawOctetPoints(p);
+	while (p.x <= p.y) {
+		if(d<0){
+			d=d+4*p.x+6;
 		}
-		drawOctetPoints(x, y);
+		else{
+			d=d+ 4*(p.x-p.y)+10;
+			p.y--;
+		}
+		p.x++;
+		drawOctetPoints(p);
 	}
 }
 
@@ -54,16 +64,9 @@ void myDisplay() {
 }
 
 void myMouse(int button, int state, int x, int y) {
-    y = 500 - y;
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-        cnt++;
-        if (cnt == 1) {
-            cx1 = x, cy1 = y;
-        } else if (cnt == 2) {
-            r = (int) sqrt((cx1 - x)*(cx1 - x) + (cy1 - y)*(cy1 - y));
-            cnt = 0;
-            glutPostRedisplay();
-        }
+        cx1 = x, cy1 = y;
+		glutPostRedisplay();
     }
 }
 

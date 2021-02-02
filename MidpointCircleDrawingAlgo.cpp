@@ -3,12 +3,23 @@
 #include <GL/glut.h>
 using namespace std;
 
+template<typename T>
+struct Point
+{
+    T x,y;
+    Point(){}
+
+    Point(T x,T y){
+        this->x=x;
+        this->y=y;
+    }
+};
 int pntX1, pntY1, r;
 
-void plot(int x, int y)
+void plot(Point<int> p)
 {
 	glBegin(GL_POINTS);
-	glVertex2i(x+pntX1, y+pntY1);
+	glVertex2i(p.x+pntX1, p.y+pntY1);
 	glEnd();
 }
 
@@ -23,35 +34,38 @@ void myInit (void)
 	gluOrtho2D(0.0, 640.0, 0.0, 480.0);
 }
 
+void drawOctetPoints(Point<int> p) {
+	int x=p.x,y=p.y;
+	plot(Point<int>(x, y));
+	plot(Point<int>(-x, y));
+	plot(Point<int>(x, -y));
+	plot(Point<int>(-x, -y));
+	plot(Point<int>(y, x));
+	plot(Point<int>(-y, x));
+	plot(Point<int>(y, -x));
+	plot(Point<int>(-y, -x));
+}
 
 void midPointCircleAlgo()
 {
-	int x = 0;
-	int y = r;
+	Point<int> p(0,r);
 	float decision = 5/4 - r;
-	plot(x, y);
+	plot(p);
 
-	while (y > x)
+	while (p.y > p.x)
 	{
 		if (decision < 0)
 		{
-			x++; 
-			decision += 2*x+1;
+			p.x++; 
+			decision += 2*p.x+3;
 		}
 		else
 		{
-			y--;
-			x++;
-			decision += 2*(x-y)+1;
+			p.y--;
+			p.x++;
+			decision += 2*(p.x-p.y)+5;
 		}
-		plot(x, y);
-		plot(x, -y);
-		plot(-x, y);
-		plot(-x, -y);
-		plot(y, x);
-		plot(-y, x);
-		plot(y, -x);
-		plot(-y, -x);
+		drawOctetPoints(p);
 	}
 
 }

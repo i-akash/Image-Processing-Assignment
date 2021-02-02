@@ -1,40 +1,64 @@
-#include <GL/glut.h>
-#include <stdlib.h>
-#include <stdio.h>
-float x1, x2, y1, y2;
+#include <windows.h>
+#include <gl/glut.h>
+#include <iostream>
+#include <cmath>
 
-void display(void)
+using namespace std;
+
+template<typename T>
+struct Point
 {
-    float dy, dx, step, x, y, k, Xin, Yin;
-    dx = x2 - x1;
-    dy = y2 - y1;
+    T x,y;
+    Point(){}
 
-    if (abs(dx) > abs(dy))
+    Point(T x,T y){
+        this->x=x;
+        this->y=y;
+    }
+};
+Point<float> p1,p2;
+
+
+void drawPixel(Point<float> p)
+{
+    glBegin(GL_POINTS);
+    glVertex2i(p.x, p.y);
+    glEnd();
+}
+
+void DDALineDrawingAlgo(Point<float> p1, Point<float> p2){
+    float dy, dx, step, incX, incY;
+    dx = p2.x - p1.x;
+    dy = p2.y - p1.y;
+    cout<<abs(dx)<<" "<<abs(dy)<<endl;
+    if (abs(dx) >= abs(dy))
     {
         step = abs(dx);
     }
     else
-        step = abs(dy);
-
-    Xin = dx / step;
-    Yin = dy / step;
-
-    x = x1;
-    y = y1;
-    glBegin(GL_POINTS);
-    glVertex2i(x, y);
-    glEnd();
-
-    for (k = 1; k <= step; k++)
     {
-        x = x + Xin;
-        y = y + Yin;
-
-        glBegin(GL_POINTS);
-        glVertex2i(x, y);
-        glEnd();
+        step = abs(dy);
     }
 
+    incX = dx / step; // if abs(dx) >= abs(dy) then incX=1
+    incY = dy / step; // if abs(dx) < abs(dy) then incY=1
+
+    Point<float> p(p1.x,p1.y);
+    drawPixel(p);
+    cout<<incX<<incY;
+    for (int k = 1; k <= step; k++)
+    {
+        p.x = p.x + incX;
+        p.y = p.y + incY;
+        drawPixel(p);
+    }
+}
+
+
+
+void display()
+{
+    DDALineDrawingAlgo(p1,p2);
     glFlush();
 }
 
@@ -48,14 +72,8 @@ void init(void)
 
 int main(int argc, char **argv)
 {
-    printf("Enter the value of x1 : ");
-    scanf("%f", &x1);
-    printf("Enter the value of y1 : ");
-    scanf("%f", &y1);
-    printf("Enter the value of x2 : ");
-    scanf("%f", &x2);
-    printf("Enter the value of y2 : ");
-    scanf("%f", &y2);
+    cout<<"Enter the value of x1, y1, x2 , y2 : \n";
+    cin>>p1.x>>p1.y>>p2.x>>p2.y;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
