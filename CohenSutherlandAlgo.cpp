@@ -1,10 +1,87 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
-
 #include <iostream>
+
 using namespace std;
 
-double x1, y1, x2, y2;
+template<typename T>
+struct Point
+{
+    T x,y;
+    Point(){
+        x=0;
+        y=0;
+    }
+
+    Point(T x,T y){
+        this->x=x;
+        this->y=y;
+    }
+};
+
+template<typename T>
+struct Line
+{
+    Point<T> pStart;
+    Point<T> pEnd;
+    Line(){}
+    Line(T x1,T y1,T x2,T y2){
+        this->pStart=new Point<T>(x1,y1);
+        this->pEnd=new Point<T>(x2,y2);
+    }
+    Line(Point<T> p1,Point<T> p2){
+        this->pStart=p1;
+        this->pEnd=p2;
+    }
+
+    void setStartPoint(Point<T> p){
+        this->pStart=p;
+    }
+
+    void setStartPoint(T x,T y){
+        this->pStart.x=x;
+        this->pStart.y=y;
+    }
+
+    void setEndPoint(Point<T> p){
+        this->pEnd=p;
+    }
+
+    void setEndPoint(T x,T y){
+        this->pEnd.x=x;
+        this->pEnd.y=y;
+    }
+
+    double getSlope(){
+        return (pEnd.y - pStart.y) / (pEnd.x - pStart.x);
+    }
+
+    T getStartX(){
+        return pStart.x;
+    }
+    T getEndX(){
+        return pEnd.x;
+    }
+
+    T getStartY(){
+        return pStart.y;
+    }
+    T getEndY(){
+        return pEnd.y;
+    }
+
+    T getXgivenY(T pY){
+        // x1 = x + (1/slope) * (y1-y)
+        return pStart.x + (1 / getSlope()) * (pY - pStart.y);
+    }
+
+    T getYgivenX(T pX){
+        // y1 = y + slope (x1-x)
+        return pStart.y + getSlope() * (pX - pStart.x);
+    }
+};
+
+Line<double> line(Point<double>(0,0),Point<double>(100,100));
 double xmin = 100, ymin = 100, xmax = 200, ymax = 200;
 double xwmin = 300, ywmin = 300, xwmax = 400, ywmax = 400;
 
@@ -15,27 +92,31 @@ const int TOP = 8;
 
 int cnt = 0;
 
-int computeCode(int x, int y)
+template<typename T>
+int computeCode(Point<T> point)
 {
     int code = 0;
-    if (x < xmin)
+    if (point.x < xmin)
         code |= LEFT;
-    else if (x > xmax)
+    else if (point.x > xmax)
         code |= RIGHT;
 
-    if (y < ymin)
+    if (point.y < ymin)
         code |= BOTTOM;
-    else if (y > ymax)
+    else if (point.y > ymax)
         code |= TOP;
 
     return code;
 }
 
-void cohenSutherland(double x1, double y1, double x2, double y2)
+template<typename T>
+void cohenSutherland(Line<T> pLine)
 {
-    int outcode0 = computeCode(x1, y1);
-    int outcode1 = computeCode(x2, y2);
-
+    int outcode0 = computeCode<T>(pLine.pStart);
+    int outcode1 = computeCode<T>(pLine.pEnd);
+    cout<<pLine.pStart.x<<" "<<pLine.pStart.y<<"\n";
+    cout<<pLine.pEnd.x<<" "<<pLine.pEnd.y<<"\n";
+    cout<<outcode0<<"\n";
     bool accept = false;
 
     while (true)
@@ -53,38 +134,39 @@ void cohenSutherland(double x1, double y1, double x2, double y2)
             int outcodeOut = outcode0 ? outcode0 : outcode1;
             double x, y;
             double slope;
-            slope = (y2 - y1) / (x2 - x1);
+            slope = pLine.getSlope();
 
             if (outcodeOut & TOP)
             {
-                x = x1 + (1 / slope) * (ymax - y1);
+                x = pLine.getXgivenY(ymax);
                 y = ymax;
             }
             else if (outcodeOut & BOTTOM)
             {
-                x = x1 + (1 / slope) * (ymin - y1);
+                x = pLine.getXgivenY(ymin);
                 y = ymin;
             }
             else if (outcodeOut & RIGHT)
             {
-                y = y1 + slope * (xmax - x1);
+                y = pLine.getYgivenX(xmax);
                 x = xmax;
             }
             else
             {
-                y = y1 + slope * (xmin - x1);
+                y = pLine.getYgivenX(xmin);
                 x = xmin;
             }
 
             if (outcodeOut == outcode0)
             {
-                x1 = x, y1 = y;
-                outcode0 = computeCode(x1, y1);
+
+                pLine.setStartPoint(Point<T>(x,y));
+                outcode0 = computeCode<T>(pLine.pStart);
             }
             else
             {
-                x2 = x, y2 = y;
-                outcode1 = computeCode(x2, y2);
+                pLine.setEndPoint(Point<T>(x,y));
+                outcode1 = computeCode<T>(pLine.pEnd);
             }
         }
     }
@@ -93,10 +175,10 @@ void cohenSutherland(double x1, double y1, double x2, double y2)
     {
         double sx = (xwmax - xwmin) / (xmax - xmin);
         double sy = (ywmax - ywmin) / (ymax - ymin);
-        double vx1 = xwmin + (x1 - xmin) * sx;
-        double vy1 = ywmin + (y1 - ymin) * sy;
-        double vx2 = xwmin + (x2 - xmin) * sx;
-        double vy2 = ywmin + (y2 - ymin) * sy;
+        double vx1 = xwmin + (pLine.getStartX() - xmin) * sx;
+        double vy1 = ywmin + (pLine.getStartY() - ymin) * sy;
+        double vx2 = xwmin + (pLine.getEndX() - xmin) * sx;
+        double vy2 = ywmin + (pLine.getEndY() - ymin) * sy;
 
         glColor3f(0.0, 0.0, 1.0);
         glBegin(GL_LINES);
@@ -118,8 +200,8 @@ void myDisplay()
     //display line
     glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_LINES);
-    glVertex2f(x1, y1);
-    glVertex2f(x2, y2);
+    glVertex2f(line.getStartX(), line.getStartY());
+    glVertex2f(line.getEndX(), line.getEndY());
     glEnd();
 
     //display clipping window
@@ -140,7 +222,7 @@ void myDisplay()
     glVertex2f(xwmin, ywmax);
     glEnd();
 
-    cohenSutherland(x1, y1, x2, y2);
+    cohenSutherland<double>(line);
     glFlush();
 }
 
@@ -151,11 +233,11 @@ void myMouse(int button, int state, int x, int y)
     {
         cnt++;
         if (cnt == 1)
-            x1 = x, y1 = y;
+            line.setStartPoint(x,y);
         else if (cnt == 2)
         {
             cnt = 0;
-            x2 = x, y2 = y;
+            line.setEndPoint(x,y);
             glutPostRedisplay();
         }
     }
