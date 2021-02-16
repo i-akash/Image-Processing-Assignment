@@ -1,85 +1,10 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <iostream>
+#include "./custom-headers/Point.h"
+#include "./custom-headers/Line.h"
 
 using namespace std;
-
-template<typename T>
-struct Point
-{
-    T x,y;
-    Point(){
-        x=0;
-        y=0;
-    }
-
-    Point(T x,T y){
-        this->x=x;
-        this->y=y;
-    }
-};
-
-template<typename T>
-struct Line
-{
-    Point<T> pStart;
-    Point<T> pEnd;
-    Line(){}
-    Line(T x1,T y1,T x2,T y2){
-        this->pStart=new Point<T>(x1,y1);
-        this->pEnd=new Point<T>(x2,y2);
-    }
-    Line(Point<T> p1,Point<T> p2){
-        this->pStart=p1;
-        this->pEnd=p2;
-    }
-
-    void setStartPoint(Point<T> p){
-        this->pStart=p;
-    }
-
-    void setStartPoint(T x,T y){
-        this->pStart.x=x;
-        this->pStart.y=y;
-    }
-
-    void setEndPoint(Point<T> p){
-        this->pEnd=p;
-    }
-
-    void setEndPoint(T x,T y){
-        this->pEnd.x=x;
-        this->pEnd.y=y;
-    }
-
-    double getSlope(){
-        return (pEnd.y - pStart.y) / (pEnd.x - pStart.x);
-    }
-
-    T getStartX(){
-        return pStart.x;
-    }
-    T getEndX(){
-        return pEnd.x;
-    }
-
-    T getStartY(){
-        return pStart.y;
-    }
-    T getEndY(){
-        return pEnd.y;
-    }
-
-    T getXgivenY(T pY){
-        // x1 = x + (1/slope) * (y1-y)
-        return pStart.x + (1 / getSlope()) * (pY - pStart.y);
-    }
-
-    T getYgivenX(T pX){
-        // y1 = y + slope (x1-x)
-        return pStart.y + getSlope() * (pX - pStart.x);
-    }
-};
 
 Line<double> line(Point<double>(0,0),Point<double>(100,100));
 double xmin = 100, ymin = 100, xmax = 200, ymax = 200;

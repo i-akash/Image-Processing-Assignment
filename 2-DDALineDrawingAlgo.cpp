@@ -2,23 +2,11 @@
 #include <gl/glut.h>
 #include <iostream>
 #include <cmath>
+#include "./custom-headers/Point.h"
 
 using namespace std;
 
-template<typename T>
-struct Point
-{
-    T x,y;
-    Point(){}
-
-    Point(T x,T y){
-        this->x=x;
-        this->y=y;
-    }
-};
 Point<float> p1,p2;
-
-
 void drawPixel(Point<float> p)
 {
     glBegin(GL_POINTS);

@@ -2,20 +2,10 @@
 #include <gl/glut.h>
 #include <iostream>
 #include <cmath>
+#include "./custom-headers/Point.h"
 
 using namespace std;
 
-template<typename T>
-struct Point
-{
-    T x,y;
-    Point(){}
-
-    Point(T x,T y){
-        this->x=x;
-        this->y=y;
-    }
-};
 
 int cx1=0, cy1=0, r;
 
