@@ -62,9 +62,11 @@ void myMouse(int button, int state, int x, int y) {
 
 int main(int argc, char **argv) {
 
-	cout << "Enter Circle Center (x1, y1) and radius (r)" << endl;
-	cin >> cx1 >> cy1 >> r;
+	cout << "Enter the coordinates of the center:\n\n" << endl;
 
+	cout << "X-coordinate   : "; cin >> cx1;
+	cout << "\nY-coordinate : "; cin >> cy1;
+	cout << "\nEnter radius : "; cin >> r;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(500, 500);

@@ -8,7 +8,8 @@ using namespace std;
 
 Point<float> p1,p2;
 void drawPixel(Point<float> p)
-{
+{   
+    glColor3f(0.0, 0.0, 1.0);
     glBegin(GL_POINTS);
     glVertex2i(p.x, p.y);
     glEnd();
@@ -52,10 +53,9 @@ void display()
 
 void init(void)
 {
-    glClearColor(0.7, 0.7, 0.7, 0.7);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(-100, 100, -100, 100);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    gluOrtho2D(0, 500.0, 0, 500.0);
 }
 
 int main(int argc, char **argv)

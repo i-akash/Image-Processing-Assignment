@@ -7,10 +7,9 @@ using namespace std;
 
 void myInit()
 {
+    glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0, 500, 0, 500);
+    gluOrtho2D(0, 500.0, 0, 500.0);
 }
 
 void swap(int *x, int *y)
@@ -22,6 +21,7 @@ void swap(int *x, int *y)
 
 void draw_pixel(int x, int y, bool exchanged = false)
 {
+    glColor3f(0.0, 0.0, 1.0);
     if (exchanged)
     {
         swap(&x, &y);
@@ -81,6 +81,8 @@ void myDisplay()
     draw_line(x1, x2, y1, y2);
     glFlush();
 }
+
+
 
 int main(int argc, char **argv)
 {

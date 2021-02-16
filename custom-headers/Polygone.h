@@ -21,6 +21,13 @@ struct Polygone{
         points.push_back(point);
     }
 
+    void addPointOffset(int index,T dx, T dy){
+        if(index>=points.size())
+            return;
+        points[index].x+=dx;
+        points[index].y+=dy;
+    }
+
     void resetIterator(){
         iteratorIndex=0;
     }
