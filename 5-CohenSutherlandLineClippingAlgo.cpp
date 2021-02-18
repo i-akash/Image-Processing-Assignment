@@ -3,7 +3,7 @@
 #include <iostream>
 #include "./custom-headers/Point.h"
 #include "./custom-headers/Line.h"
-#include "./algos/CohenSutherlandLineClippingAlgo.h"
+#include "./algos/5-CohenSutherlandLineClippingAlgo.h"
 #include "./openGL-comp/HelperDrawerMethod.h"
 #include "./custom-headers/Polygone.h"
 

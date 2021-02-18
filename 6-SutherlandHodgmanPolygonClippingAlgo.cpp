@@ -5,7 +5,7 @@
 #include "./custom-headers/Line.h"
 #include "./custom-headers/Point.h"
 #include "./custom-headers/Polygone.h"
-#include "./algos/SutherlandHodgmanPolygonClippingAlgo.h"
+#include "./algos/6-SutherlandHodgmanPolygonClippingAlgo.h"
 #include "./openGL-comp/HelperDrawerMethod.h"
 
 using namespace std;
