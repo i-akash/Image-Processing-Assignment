@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 int cx1=0, cy1=0, r;
 
 void myInit() {

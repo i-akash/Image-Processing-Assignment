@@ -6,15 +6,12 @@
 
 using namespace std;
 
-
 void myInit()
 {
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     gluOrtho2D(0, 500.0, 0, 500.0);
 }
-
-
 
 void draw_line(int x0, int x1, int y0, int y1)
 {
@@ -35,8 +32,6 @@ void myDisplay()
     draw_line(x1, x2, uy1, y2);
     glFlush();
 }
-
-
 
 int main(int argc, char **argv)
 {
