@@ -18,14 +18,14 @@ Polygone<T> clip(Polygone<T> polygone,Line<T> clipperLine)
         int i_pos = clipperLine.getPositionOfPoint(currentLine.pStart); 
         int k_pos = clipperLine.getPositionOfPoint(currentLine.pEnd); 
   
-        // Case 1 : When both points are inside
-        if (i_pos < 0  && k_pos < 0) 
+        // Case 1 : When both points are inside. we are going clockwise so taking points that is negative 
+        if (i_pos <= 0  && k_pos <= 0) 
         { 
             //Only second point is added 
             clippedPolygon.push_back(currentLine.pEnd);
         } 
         // Case 2: When only first point is outside 
-        else if (i_pos >= 0  && k_pos < 0) 
+        else if (i_pos > 0  && k_pos <= 0) 
         { 
             // Point of intersection with edge and the second point is added 
             Point<T> p=clipperLine.getIntersectOfLines(currentLine);
@@ -33,7 +33,7 @@ Polygone<T> clip(Polygone<T> polygone,Line<T> clipperLine)
             clippedPolygon.push_back(currentLine.pEnd);
         } 
         // Case 3: When only second point is outside 
-        else if (i_pos < 0  && k_pos >= 0) 
+        else if (i_pos <= 0  && k_pos > 0) 
         { 
             //Only point of intersection with edge is added 
             Point<T> p=clipperLine.getIntersectOfLines(currentLine);

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include "./custom-headers/Point.h"
+#include "./openGL-comp/HelperDrawerMethod.h"
 
 using namespace std;
 
@@ -19,16 +20,14 @@ void myInit() {
 
 void drawOctetPoints(Point<int> p) {
 	int x=p.x,y=p.y;
-	glBegin(GL_POINTS);
-	glVertex2i(x + cx1, y + cy1);
-	glVertex2i(-x + cx1, y + cy1);
-	glVertex2i(x + cx1, -y + cy1);
-	glVertex2i(-x + cx1, -y + cy1);
-	glVertex2i(y + cx1, x + cy1);
-	glVertex2i(-y + cx1, x + cy1);
-	glVertex2i(y + cx1, -x + cy1);
-	glVertex2i(-y + cx1, -x + cy1);
-	glEnd();
+	drawPixel(Point<int>(x + cx1, y + cy1));
+	drawPixel(Point<int>(-x + cx1, y + cy1));
+	drawPixel(Point<int>(x + cx1, -y + cy1));
+	drawPixel(Point<int>(-x + cx1, -y + cy1));
+	drawPixel(Point<int>(y + cx1, x + cy1));
+	drawPixel(Point<int>(-y + cx1, x + cy1));
+	drawPixel(Point<int>(y + cx1, -x + cy1));
+	drawPixel(Point<int>(-y + cx1, -x + cy1));
 }
 
 void drawCircle(int r) {

@@ -13,5 +13,11 @@ struct Point
         this->x=x;
         this->y=y;
     }
+
+    void swap(){
+        T t=x;
+        x=y;
+        y=t;
+    }
 };
 #endif

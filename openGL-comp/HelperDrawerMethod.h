@@ -3,31 +3,30 @@
 #include <windows.h>
 #include <gl/glut.h>
 #include "../custom-headers/Point.h"
+#include "../custom-headers/Line.h"
 #include<vector>
 
-void swap(int *x, int *y)
-{
-    int temp = *x;
-    *x = *y;
-    *y = temp;
-}
+int offset=250;
 
-void drawPixel(int x, int y, bool exchanged = false)
+template<typename T>
+void drawPixel(Point<T> p, bool exchanged=false)
 {
+    glColor3f(0.0, 0.0, 1.0);
     if (exchanged)
     {
-        swap(&x, &y);
+        p.swap();
     }
     glBegin(GL_POINTS);
-    glVertex2i(x, y);
+    glVertex2i(p.x+offset, p.y+offset);
     glEnd();
 }
 
-void drawPixel(Point<float> p)
-{
-    glBegin(GL_POINTS);
-    glVertex2i(p.x, p.y);
-    glEnd();
+template<typename T>
+void drawPixels(std :: vector<Point<T>> points, bool exchanged=false)
+{   
+    for(Point<T> point : points){
+        drawPixel<T>(point,exchanged);
+    }
 }
 
 void drawBluePolygon(std::vector<Point<double>> points){
@@ -56,5 +55,4 @@ void drawLine(Line<T> line){
     glVertex2f(line.getEndX(), line.getEndY());
     glEnd();
 }
-
 #endif // HELPER_DRAWER

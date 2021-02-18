@@ -60,7 +60,11 @@ void myDisplay()
         for(int index =0;index < state.polygonTobeClipped.points.size();index++){
             state.polygonTobeClipped.addPointOffset(index,d,d);
         } 
-        drawRedPolygon(state.polygonTobeClipped.points);
+        // drawRedPolygon(state.polygonTobeClipped.points);
+        for(int index =0;index < state.polygonTobeClipped.points.size();index++){
+            int nIndex=(index+1)%state.polygonTobeClipped.points.size();
+            drawLine<double>(state.polygonTobeClipped.getConnectedLine(index,nIndex));   
+        }
     }
 
     glFlush();

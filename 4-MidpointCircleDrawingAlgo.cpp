@@ -2,46 +2,38 @@
 #include <iostream>
 #include <GL/glut.h>
 #include "./custom-headers/Point.h"
+#include "./openGL-comp/HelperDrawerMethod.h"
 
 using namespace std;
 
 int pntX1, pntY1, r;
 
-void plot(Point<int> p)
-{
-	glBegin(GL_POINTS);
-	glVertex2i(p.x+pntX1, p.y+pntY1);
-	glEnd();
-}
-
-
 void myInit (void)
 {
-	glClearColor(1.0, 1.0, 1.0, 0.0);
-	glColor3f(0.0f, 0.0f, 0.0f);
-	glPointSize(4.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluOrtho2D(0.0, 640.0, 0.0, 480.0);
+	gluOrtho2D(0, 500, 0, 500);
+	glColor3f(0.0, 0.0, 0.0);
 }
 
 void drawOctetPoints(Point<int> p) {
 	int x=p.x,y=p.y;
-	plot(Point<int>(x, y));
-	plot(Point<int>(-x, y));
-	plot(Point<int>(x, -y));
-	plot(Point<int>(-x, -y));
-	plot(Point<int>(y, x));
-	plot(Point<int>(-y, x));
-	plot(Point<int>(y, -x));
-	plot(Point<int>(-y, -x));
+	drawPixel<int>(Point<int>(x+pntX1, y+pntY1));
+	drawPixel<int>(Point<int>(-x+pntX1, y+pntY1));
+	drawPixel<int>(Point<int>(x+pntX1, -y+pntY1));
+	drawPixel<int>(Point<int>(-x+pntX1, -y+pntY1));
+	drawPixel<int>(Point<int>(y+pntY1, x+pntX1));
+	drawPixel<int>(Point<int>(-y+pntY1, x+pntX1));
+	drawPixel<int>(Point<int>(y+pntY1, -x+pntX1));
+	drawPixel<int>(Point<int>(-y+pntY1, -x+pntX1));
 }
 
 void midPointCircleAlgo()
 {
 	Point<int> p(0,r);
-	float decision = 5/4 - r;
-	plot(p);
+	float decision = 1 - r;
+	drawPixel<int>(p);
 
 	while (p.y > p.x)
 	{
@@ -63,12 +55,7 @@ void midPointCircleAlgo()
 
 void myDisplay(void)
 {
-	glClear (GL_COLOR_BUFFER_BIT);
-	glColor3f (0.0, 0.0, 0.0);
-	glPointSize(1.0);
-
 	midPointCircleAlgo();
-
 	glFlush ();
 }
 
@@ -76,18 +63,17 @@ int main(int argc, char** argv)
 {	
 	cout << "Enter the coordinates of the center:\n\n" << endl;
 
-	cout << "X-coordinate   : "; cin >> pntX1;
+	cout << "X-coordinate  : "; cin >> pntX1;
 	cout << "\nY-coordinate : "; cin >> pntY1;
 	cout << "\nEnter radius : "; cin >> r;
 
-
 	glutInit(&argc, argv);
-	glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowSize (640, 480);
-	glutInitWindowPosition (100, 150);
-	glutCreateWindow ("Line Drawing Alogrithms");
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(0, 0);
+	glutCreateWindow ("-- Midpoint Circle Drawing --");
+	myInit();
 	glutDisplayFunc(myDisplay);
-	myInit ();
 	glutMainLoop();
     return 0;
     
