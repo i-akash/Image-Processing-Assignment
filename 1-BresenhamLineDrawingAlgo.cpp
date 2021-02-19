@@ -16,14 +16,15 @@ void myInit()
 void draw_line(int x0, int x1, int y0, int y1)
 {
     int dX = abs(x1 - x0), dY = abs(y1 - y0);
+    int offsetX=250,offsetY=250; // origin at (250,250)
+    RGBColor color(0,0,0,1);
+    bool exchangeCord=true;
+
     if (dX > dY)
     {
-        drawPixels(BresenhamsLineDrawingAlgo(y0, y1, x0, x1));
+        exchangeCord=false;
     }
-    else
-    {
-        drawPixels(BresenhamsLineDrawingAlgo(y0, y1, x0, x1),true);
-    }
+    drawPixels(BresenhamsLineDrawingAlgo(y0, y1, x0, x1),color,offsetX,offsetY,exchangeCord);
 }
 
 int x1, x2, uy1, y2;    

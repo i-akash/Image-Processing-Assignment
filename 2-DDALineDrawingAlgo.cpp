@@ -10,7 +10,9 @@ Point<float> p1,p2;
 
 void display()
 {
-    drawPixels(DDALineDrawingAlgo(p1,p2));
+    int offsetX=250,offsetY=250; // origin at (250,250)
+    RGBColor color(0,0,0,1);
+    drawPixels(DDALineDrawingAlgo(p1,p2),color,offsetX,offsetY);
     glFlush();
 }
 

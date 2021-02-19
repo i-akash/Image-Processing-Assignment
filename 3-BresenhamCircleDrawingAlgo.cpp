@@ -4,6 +4,7 @@
 #include <cmath>
 #include "./custom-headers/Point.h"
 #include "./openGL-comp/HelperDrawerMethod.h"
+#include "./algos/3-BresenhamCircleAlgo.h"
 
 using namespace std;
 
@@ -17,37 +18,11 @@ void myInit() {
 	glColor3f(0.0, 0.0, 0.0);
 }
 
-void drawOctetPoints(Point<int> p) {
-	int x=p.x,y=p.y;
-	drawPixel(Point<int>(x + cx1, y + cy1));
-	drawPixel(Point<int>(-x + cx1, y + cy1));
-	drawPixel(Point<int>(x + cx1, -y + cy1));
-	drawPixel(Point<int>(-x + cx1, -y + cy1));
-	drawPixel(Point<int>(y + cx1, x + cy1));
-	drawPixel(Point<int>(-y + cx1, x + cy1));
-	drawPixel(Point<int>(y + cx1, -x + cy1));
-	drawPixel(Point<int>(-y + cx1, -x + cy1));
-}
-
-void drawCircle(int r) {
-	int d = 3 - 2*r;
-	Point<int> p(0,r);
-	drawOctetPoints(p);
-	while (p.x <= p.y) {
-		if(d<0){
-			d=d+4*p.x+6;
-		}
-		else{
-			d=d+ 4*(p.x-p.y)+10;
-			p.y--;
-		}
-		p.x++;
-		drawOctetPoints(p);
-	}
-}
-
 void myDisplay() {
-	drawCircle(r);
+	int offsetX=250,offsetY=250; // origin at (250,250)
+    RGBColor color(0,0,0,1);
+	auto points=bresenhamCircleAlgo(r);
+	drawPixels<int>(points,color,cx1+offsetX,cy1+offsetY);
 	glFlush();
 }
 

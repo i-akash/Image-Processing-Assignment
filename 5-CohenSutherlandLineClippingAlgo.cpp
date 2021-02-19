@@ -15,11 +15,11 @@ struct State
     Polygone<double> clipperWindow;
     Polygone<double> showWindow;
     double xmin, ymin, xmax , ymax ;
-    int d=150;
+    double translateXY=150;
     State(){
         
         xmin = 150, ymin = 150, xmax = 250, ymax = 250;
-        double xwmin = xmin+d, ywmin = ymin+d, xwmax = xmax+d, ywmax = ymax+d;
+        double xwmin = xmin+translateXY, ywmin = ymin+translateXY, xwmax = xmax+translateXY, ywmax = ymax+translateXY;
 
         lineTobeClipped.pStart = Point<double>(0,0);
 
@@ -46,20 +46,17 @@ void myInit()
 void myDisplay()
 {
     state.lineTobeClipped=userLine;
-    //display line
-    drawLine<double>(state.lineTobeClipped);
     //display clipping window
-    drawBluePolygon(state.clipperWindow.points);
+    drawIPolygon(state.clipperWindow.points,RGBColor(0,0,1,1));
+    //display line
+    drawLine(state.lineTobeClipped,RGBColor(0,0,0,1));
+    
     //display clipped window
-    drawRedPolygon(state.showWindow.points);
+    drawIPolygon(state.showWindow.points,RGBColor(1,0,0,1));
 
     bool accept = cohenSutherland<double>(state.lineTobeClipped, state.xmin,  state.ymin, state.xmax,  state.ymax);
     if(accept){
-        state.lineTobeClipped.pStart.x+=state.d;
-        state.lineTobeClipped.pStart.y+=state.d;
-        state.lineTobeClipped.pEnd.x+=state.d;
-        state.lineTobeClipped.pEnd.y+=state.d;  
-        drawLine<double>(state.lineTobeClipped);
+        drawLine(state.lineTobeClipped,RGBColor(0,0,0,1),state.translateXY,state.translateXY);
     }
     glFlush();
 }

@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include "./custom-headers/Point.h"
 #include "./openGL-comp/HelperDrawerMethod.h"
+#include "./algos/4-MidPointCircleAlgo.h"
 
 using namespace std;
 
@@ -17,45 +18,12 @@ void myInit (void)
 	glColor3f(0.0, 0.0, 0.0);
 }
 
-void drawOctetPoints(Point<int> p) {
-	int x=p.x,y=p.y;
-	drawPixel<int>(Point<int>(x+pntX1, y+pntY1));
-	drawPixel<int>(Point<int>(-x+pntX1, y+pntY1));
-	drawPixel<int>(Point<int>(x+pntX1, -y+pntY1));
-	drawPixel<int>(Point<int>(-x+pntX1, -y+pntY1));
-	drawPixel<int>(Point<int>(y+pntY1, x+pntX1));
-	drawPixel<int>(Point<int>(-y+pntY1, x+pntX1));
-	drawPixel<int>(Point<int>(y+pntY1, -x+pntX1));
-	drawPixel<int>(Point<int>(-y+pntY1, -x+pntX1));
-}
-
-void midPointCircleAlgo()
-{
-	Point<int> p(0,r);
-	float decision = 1 - r;
-	drawPixel<int>(p);
-
-	while (p.y > p.x)
-	{
-		if (decision < 0)
-		{
-			p.x++; 
-			decision += 2*p.x+3;
-		}
-		else
-		{
-			p.y--;
-			p.x++;
-			decision += 2*(p.x-p.y)+5;
-		}
-		drawOctetPoints(p);
-	}
-
-}
-
 void myDisplay(void)
 {
-	midPointCircleAlgo();
+	int offsetX=250,offsetY=250; // origin at (250,250)
+    RGBColor color(0,0,0,1);
+	auto points=midPointCircleAlgo(r);
+	drawPixels<int>(points,color,pntX1+offsetX,pntY1+offsetY,false);
 	glFlush ();
 }
 
