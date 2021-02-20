@@ -43,7 +43,7 @@
 - click on the window to draw points eventually polygon will be drawn and clipped.
 - type **c**  to clear screen.
 
-![Cohen sutherland polygon clipper](https://i.ibb.co/pxF12vK/cohen.jpg)
+![Cohen sutherland polygon clipper](https://i.ibb.co/zHT0SqX/suth.jpg)
 
 
 
