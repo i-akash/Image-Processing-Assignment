@@ -6,13 +6,13 @@
 #include "./algos/2-DDALineAlgo.h"
 
 using namespace std;
-Point<float> p1,p2;
+Point<float> p1, p2;
 
 void display()
 {
-    int offsetX=250,offsetY=250; // origin at (250,250)
-    RGBColor color(0,0,0,1);
-    drawPixels(DDALineDrawingAlgo(p1,p2),color,offsetX,offsetY);
+    int offsetX = 250, offsetY = 250; // origin at (250,250)
+    RGBColor color(0, 0, 0, 1);
+    drawPixels(DDALineDrawingAlgo(p1, p2), color, offsetX, offsetY);
     glFlush();
 }
 
@@ -25,8 +25,8 @@ void init(void)
 
 int main(int argc, char **argv)
 {
-    cout<<"Enter the value of x1, y1, x2 , y2 : \n";
-    cin>>p1.x>>p1.y>>p2.x>>p2.y;
+    cout << "Enter the value of x1, y1, x2 , y2 : \n";
+    cin >> p1.x >> p1.y >> p2.x >> p2.y;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);

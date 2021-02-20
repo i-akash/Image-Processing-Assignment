@@ -16,18 +16,18 @@ void myInit()
 void draw_line(int x0, int x1, int y0, int y1)
 {
     int dX = abs(x1 - x0), dY = abs(y1 - y0);
-    int offsetX=250,offsetY=250; // origin at (250,250)
-    RGBColor color(0,0,0,1);
-    bool exchangeCord=true;
+    int offsetX = 250, offsetY = 250; // origin at (250,250)
+    RGBColor color(0, 0, 0, 1);
+    bool exchangeCord = true;
 
     if (dX > dY)
     {
-        exchangeCord=false;
+        exchangeCord = false;
     }
-    drawPixels(BresenhamsLineDrawingAlgo(y0, y1, x0, x1),color,offsetX,offsetY,exchangeCord);
+    drawPixels(BresenhamsLineDrawingAlgo(y0, y1, x0, x1), color, offsetX, offsetY, exchangeCord);
 }
 
-int x1, x2, uy1, y2;    
+int x1, x2, uy1, y2;
 void myDisplay()
 {
     draw_line(x1, x2, uy1, y2);
@@ -36,8 +36,8 @@ void myDisplay()
 
 int main(int argc, char **argv)
 {
-    cout<<"Enter (x1, uy1, x2, y2)\n";
-    cin>>x1>>uy1>>x2>> y2;
+    cout << "Enter (x1, uy1, x2, y2)\n";
+    cin >> x1 >> uy1 >> x2 >> y2;
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(500, 500);

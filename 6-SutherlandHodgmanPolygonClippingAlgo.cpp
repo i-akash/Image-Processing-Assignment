@@ -15,16 +15,17 @@ struct State
     Polygone<double> polygonTobeClipped;
     Polygone<double> clipperWindow;
     Polygone<double> showWindow;
-    double translateXY=150;
-    State(){
+    double translateXY = 150;
+    State()
+    {
         double xmin = 150, ymin = 150, xmax = 250, ymax = 250;
-        double xwmin = xmin+translateXY, ywmin = ymin+translateXY, xwmax = xmax+translateXY, ywmax = ymax+translateXY;
-        polygonTobeClipped=Polygone<double>(points);
-        
-        clipperWindow.addPoint(Point<double>(xmin,ymin));
-        clipperWindow.addPoint(Point<double>(xmin,ymax));
-        clipperWindow.addPoint(Point<double>(xmax,ymax));
-        clipperWindow.addPoint(Point<double>(xmax,ymin));
+        double xwmin = xmin + translateXY, ywmin = ymin + translateXY, xwmax = xmax + translateXY, ywmax = ymax + translateXY;
+        polygonTobeClipped = Polygone<double>(points);
+
+        clipperWindow.addPoint(Point<double>(xmin, ymin));
+        clipperWindow.addPoint(Point<double>(xmin, ymax));
+        clipperWindow.addPoint(Point<double>(xmax, ymax));
+        clipperWindow.addPoint(Point<double>(xmax, ymin));
 
         showWindow.addPoint(Point<double>(xwmin, ywmin));
         showWindow.addPoint(Point<double>(xwmax, ywmin));
@@ -32,7 +33,6 @@ struct State
         showWindow.addPoint(Point<double>(xwmin, ywmax));
     }
 };
-
 
 void myInit()
 {
@@ -43,19 +43,21 @@ void myInit()
 
 void myDisplay()
 {
-    
+
     State state;
     glClear(GL_COLOR_BUFFER_BIT);
-    drawIPolygon(state.clipperWindow.points,RGBColor(0,0,1,1));
-    drawIPolygon(state.polygonTobeClipped.points,RGBColor(0,0,0,1));
-    
+    drawIPolygon(state.clipperWindow.points, RGBColor(0, 0, 1, 1));
+    drawIPolygon(state.polygonTobeClipped.points, RGBColor(0, 0, 0, 1));
+
     //display clipped window
-    drawIPolygon(state.showWindow.points,RGBColor(1,0,0,1));
-    if(state.polygonTobeClipped.points.size()>=3){
-        state.polygonTobeClipped=suthHodgClip<double>(state.polygonTobeClipped, state.clipperWindow);
-        for(int index =0;index < state.polygonTobeClipped.points.size();index++){
-            int nIndex=(index+1)%state.polygonTobeClipped.points.size();
-            drawLine(state.polygonTobeClipped.getConnectedLine(index,nIndex),RGBColor(0,0,0,1),state.translateXY,state.translateXY);   
+    drawIPolygon(state.showWindow.points, RGBColor(1, 0, 0, 1));
+    if (state.polygonTobeClipped.points.size() >= 3)
+    {
+        state.polygonTobeClipped = suthHodgClip<double>(state.polygonTobeClipped, state.clipperWindow);
+        for (int index = 0; index < state.polygonTobeClipped.points.size(); index++)
+        {
+            int nIndex = (index + 1) % state.polygonTobeClipped.points.size();
+            drawLine(state.polygonTobeClipped.getConnectedLine(index, nIndex), RGBColor(0, 0, 0, 1), state.translateXY, state.translateXY);
         }
     }
 
@@ -76,7 +78,7 @@ void myMouse(int button, int state, int x, int y)
     y = 500 - y;
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
-        points.push_back(Point<double>(x,y));
+        points.push_back(Point<double>(x, y));
     }
 }
 
