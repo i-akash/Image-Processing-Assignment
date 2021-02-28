@@ -47,6 +47,21 @@
 
 
 
+# OpenGL Setup
+
+##### GCC Compiler - MinGW
+
+- Download the pre-package version for MinGW (freeglut 2.8.0 MinGW Package) available at http://www.transmissionzero.co.uk/software/freeglut-devel/.
+- Unzip
+- copy header files from 
+  - `include\GL` to  `MINGW_HOME>\include\GL` 
+  - `lib` to `MINGW_HOME>\lib` 
+  - shared library from `bin` to  `<MINGW_HOME>\bin`
+
+I followed setup of OpenGL from here https://www3.ntu.edu.sg/home/ehchua/programming/opengl/HowTo_OpenGL_C.html  
+
+
+
 ​	
 
 
